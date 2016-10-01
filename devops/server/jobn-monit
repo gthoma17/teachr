@@ -1,0 +1,29 @@
+##############################################################################
+## BELOW DEFINED BY GREG
+##############################################################################
+# Manage nginx
+check process nginx with pidfile /var/run/nginx.pid
+start program = "/usr/bin/service nginx start"
+stop program = "/usr/bin/service nginx stop"
+
+# Manage MySQL
+check process mysqld with pidfile /var/run/mysqld/mysqld.pid
+group mysql
+start program = "/usr/bin/service mysql start"
+stop program = "/usr/bin/service mysql stop"
+if failed host 127.0.0.1 port 3306 then restart
+if 5 restarts within 5 cycles then timeout
+
+# Manage SSHD 
+check process sshd with pidfile /var/run/sshd.pid
+start program "/usr/bin/service sshd start"
+stop program "/usr/bin/service sshd stop"
+if failed host 127.0.0.1 port 22 protocol ssh then restart
+if 5 restarts within 5 cycles then timeout
+
+# Manage Jobn backend
+check host localhost with address jobn.io
+  if failed url http://localhost:9001 and content == ".*Shhhh.*"
+  timeout 30 seconds for 1 cycles then exec "/apps/jobn/devops/server/restartBackend.sh"
+  if failed url http://localhost and content == ".*Jobn.*"
+  timeout 30 seconds for 1 cycles then exec "/apps/jobn/devops/server/restartWebui.sh"

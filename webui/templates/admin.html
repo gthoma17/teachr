@@ -1,0 +1,159 @@
+$def with (response, users)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+<link type=text/css rel=stylesheet href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
+<script type=text/javascript>
+  window.google.identitytoolkit.signInButton(
+    '#navbar', // accepts any CSS selector
+    {
+      widgetUrl: "/login",
+      signOutUrl: "/logout",
+    }
+  );
+</script>
+<title>Jobn - Admin Panel</title>
+<script src="/static/user_ajax.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+<link rel="icon" type="image/png" href="/static/favicon.png">
+</head>
+
+<body>
+
+<!-- navigation bar -->
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+    <!--brand and toggle grouped for better mobile display-->
+    <a href="/" class="pull-left"><img class="logo" alt="Jobn" src="/static/logo_small.png"  /></a>
+    
+    <div class="navbar-brand">Admin Panel</div>
+    
+
+    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+      
+      <span class="sr-only">Toggle navigation</span>
+      
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      
+    </button>
+    
+    </div>
+  <!--content for toggling-->
+    <div class="collapse navbar-collapse">
+  
+    <ul class="nav navbar-nav">
+      
+        <li class="pages"><a href="/reports">Reports</a></li>
+        <li class="pages"><a href="/jobs">Jobs</a></li>
+        <li class="pages"><a href="/dashboard">Dashboard</a></li>
+        <li id="accountSwitcherLI"><div id="accountSwitcher"><div id="navbar" style="vertical-align:middle;width:100%;" class="center-block"></div></div></li>
+      
+    </ul>
+    
+  </div>
+  </div>
+</nav>
+<!-- admin info -->
+	<div class="container">
+	  <tr>
+		<td style="padding:5px;">$:response</p></td>
+	  </tr>
+	</div>
+	<div class="container">
+	  <tr>
+		<td id="apiResponse"></td>
+	 </tr>
+	</div>
+	<div class ="container" id="admin-table-container">
+		<table id="admin-table" class="table table-striped table-condensed table-bordered text-center tablesorter">
+			<thead>
+				<tr style="border-bottom:3px solid #f2592a;">
+				  <th class="text-center"><strong>Name</strong></th>
+				  <th class="text-center"><strong>Type</strong></th>
+				  <th class="text-center"><strong>Email</strong></th>
+				  <th class="text-center"><strong>Phone</strong></th>
+				  <th class="text-center"><strong>&nbsp;</strong></th>
+				</tr>
+			</thead>
+			<tbody id="adminTbody">
+			  $for user in users:
+				<tr id="user$user['id']">
+					<td>
+						<div id="name_$user['id']">$user['name']</div>
+						<input type="text" class="edit_row" id="name_edit_$user['id']" name="name" size="15" value="$user['name']"/>
+					</td>
+					<td>
+						<div id="permissionLevel_$user['id']">$user['permissionLevel']</div>
+						<select id="permissionLevel_edit_$user['id']" class="edit_row"><option value="select" selected>select</option><option value="Admin">Admin</option><option value="Manager">Manager</option><option value="Supervisor">Supervisor</option></select>
+					</td>
+					<td>
+						<div id="email_$user['id']">$user['email']</div>
+						<input type="text" id="email_edit_$user['id']" class="edit_row" name="email" size="15" value="$user['email']"/>
+					</td>
+					<td>
+						<div id="phone_$user['id']">$user['phone']</div>
+						<input type="text" id="phone_edit_$user['id']" class="edit_row" name="phone" size="15" value="$user['phone']"/>
+					</td>
+					<td>
+						<div id="buttons_$user['id']"><button class="edit_button" id="edit_$user['id']">Edit</button><button class="delete_button" id="delete_$user['id']">Delete</button></div>
+						<div id="buttons_edit_$user['id']" class="edit_row"><button class="save_button" id="save_$user['id']">Save</button><button class="cancel_button" id="cancel_$user['id']">Cancel</button></div>
+					</td>
+				</tr>
+			
+			</tbody>
+			<tr>
+				<td colspan="5"><button id="showUserAdd">Add A User</button></td>
+			</tr>
+			<tr id="addUserForm">
+				<td><input type="text" id="name" name="name" size="15" placeholder="Name"/></td>
+				<td><select id="permissionLevel"><option value="select" selected>select</option><option value="Admin">Admin</option><option value="Manager">Manager</option><option value="Supervisor">Supervisor</option></select></td>
+				<td><input type="text" id="email" name="email" size="15" placeholder="Email"/></td>
+				<td><input type="text" id="phone" name="phone" size="15" placeholder="Phone Number"/></td>
+				<td><button id="userAdd">Add</button><button id="cancelUserAdd">Cancel</button></td>
+			</tr>
+		</table>
+		
+	</div>
+	
+	<!--<table class="hidden" id="userRowTemplate">-->
+	<table class="hidden" id="userRowTemplate">
+		<!--<tr class="userRowTemplate" id="user!template!">-->
+		<tr id="user!template!">
+			<td>
+				<div id="name_!template!"></div>
+				<input type="text" class="edit_row" id="name_edit_!template!" name="name" size="15"/>
+			</td>
+			<td>
+				<div id="permissionLevel_!template!"></div>
+				<select id="permissionLevel_edit_!template!" class="edit_row"><option value="select" selected>select</option><option value="Admin">Admin</option><option value="Manager">Manager</option><option value="Supervisor">Supervisor</option></select>
+			</td>
+			<td>
+				<div id="email_!template!"></div>
+				<input type="text" id="email_edit_!template!" class="edit_row" name="email" size="15" value="$user['email']"/>
+			</td>
+			<td>
+				<div id="phone_!template!"></div>
+				<input type="text" id="phone_edit_!template!" class="edit_row" name="phone" size="15" value="$user['phone']"/>
+			</td>
+			<td>
+				<div id="buttons_!template!"><button class="edit_button" id="edit_!template!">Edit</button><button class="delete_button" id="delete_!template!">Delete</button></div>
+				<div id="buttons_edit_!template!" class="edit_row"><button class="save_button" id="save_!template!">Save</button><button class="cancel_button" id="cancel_!template!">Cancel</button></div>
+			</td>
+		</tr>
+	</table>
+  
+</body>
+</html>
+

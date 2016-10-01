@@ -1,0 +1,11 @@
+nginx
+mysql-server-5.6
+monit
+python-pip 
+python-dev 
+build-essential 
+libmysqlclient-dev
+libffi-dev
+libssl-dev
+git
+python-dateutil

@@ -1,0 +1,661 @@
+$def with (job, user, apiUrl)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.css" type="text/css" media="screen" />
+<link type=text/css rel=stylesheet href="//www.gstatic.com/authtoolkit/css/gitkit.css" />
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="//www.gstatic.com/authtoolkit/js/gitkit.js"></script>
+<script type=text/javascript>
+  window.google.identitytoolkit.signInButton(
+    '#navbar', // accepts any CSS selector
+    {
+      widgetUrl: "/login",
+      signOutUrl: "/logout",
+    }
+  );
+</script>
+$if 'isNewJob' in job:
+	<title>Jobn - New Job</title>
+$else:
+	<title>Jobn - $job['name']</title>
+<script src="/static/job_ajax.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/style.css">
+<link rel="icon" type="image/png" href="/static/favicon.png">
+</head>
+<body>
+
+
+<!-- navigation bar -->
+<nav role="navigation" class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+		<!--brand and toggle grouped for better mobile display-->
+		<a href="/" class="pull-left"><img class="logo" alt="Jobn" src="/static/logo_small.png"  /></a>
+		
+		<div class="navbar-brand"></div>
+		
+
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			
+			<span class="sr-only">Toggle navigation</span>
+			
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			
+		</button>
+		
+    </div>
+	<!--content for toggling-->
+    <div class="collapse navbar-collapse">
+	
+		<ul class="nav navbar-nav">
+			
+			<li style="z-index:512;" class="pages"><a href="/reports">Reports</a></li>
+			<li style="z-index:512;" class="pages"><a href="/jobs">Jobs</a></li>
+			<li style="z-index:512;" class="pages"><a href="/dashboard">Dashboard</a></li>
+			<li style="z-index:512;" id="accountSwticherLI"><div id="accountSwitcher"><div id="navbar" style="vertical-align:middle;width:100%;" class="center-block"></div></div></li>
+				
+		</ul>
+		
+	</div>
+  </div>
+</nav>
+<!-- end navigation bar -->
+
+<!-- Begin Job Information -->
+	$if job['phase'].lower() == "open":
+		$ color = "card-success"
+	$else:
+		$ color = "card-danger"
+	$ job['location'] = job['street_address']+" "+job['city']+" "+job['state']+" "+job['zip']
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card $color job-info" style="border-width:.15rem;">
+					<div class="card-header">
+						<div  class="job-show text-center"><h1 id="job-name">$job['name']</h1><a id="edit-job" href="#">&emsp;(edit)</a></h1></div>
+						<h1 class="job-edit text-center"><input type="text" id="edit-job-name" name="jobName" size="10" value="$job['name']"/><a id="edit-job-save" href="#">&emsp;(save)</a><a id="edit-job-cancel" href="#">&nbsp;(cancel)</a></h1>
+					</div>
+					<div class="card-block" style="background-color: #f5f5f5;border-bottom: .0625rem solid #e5e5e5;padding:0.5rem;">
+						<div class="row" style="border-bottom: .0625rem solid #e5e5e5;padding-bottom:0.5rem;">
+							<div class="col-sm-6 job-show">
+								Location:
+								<a id="job-location" href="http://maps.apple.com/?q=$job['location']" target="blank" role="button" class="btn btn-primary" aria-label="Left Align">
+                  					<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span>$job['street_address'] $job['city']
+                				</a>
+            				</div>
+							<div class="col-sm-6 job-edit">
+									Street: <input id="edit-job-street" name="job-street" value="$job['street_address']" type="text" /><br>
+									City: <input id="edit-job-city" name="job-city" value="$job['city']" type="text" /><br>
+									State: <input id="edit-job-state" name="job-state" value="$job['state']" type="text" /><br>
+									Zip: <input id="edit-job-zip" name="job-zip" value="$job['zip']" type="text" /><br>
+							</div>
+							<div class="col-sm-6 job-show" style="display:inline;" id="job-customer">
+								Customer: <span id="job-customer-name">$job['customer_name']</span>
+								<a class="button" href="tel:$job['customer_phone']"><span class="glyphicon glyphicon-earphone"></span></a>&nbsp;
+								<a class="button" href="mailto:$job['customer_email']"><span class="glyphicon glyphicon-envelope"></span></a>
+							</div>
+							<div class="col-sm-6 job-edit">
+								Customer: <input id="edit-job-customer-name" value="$job['customer_name']" type="text" /><br>
+								<span class="glyphicon glyphicon-earphone">: <input id="edit-job-customer-phone" value="$job['customer_phone']" type="text" /><br>
+								<span class="glyphicon glyphicon-envelope">: </span><input id="edit-job-customer-email" value="$job['customer_email']" type="text" />
+							</div>
+						</div>
+	    				<div class="row" style="border-bottom: .0625rem solid #e5e5e5;padding-bottom:0.5rem;">
+							$if job['supervisor'] != None:
+								<div class="col-sm-6 job-display job-show"><p style="margin-bottom: 0px;">Supervisor: <span id="job-supervisor">
+									$job['supervisor']['name']
+								</span></p></div>
+							$else:
+								<div class="col-sm-6 job-display job-show"><p style="margin-bottom: 0px;">Supervisor: <span id="job-supervisor"> </span></p></div>
+							<div class="col-sm-6 job-edit"><p style="margin-bottom: 0px;">Supervisor: <select id="edit-job-supervisor"></select></p></div>
+	    					
+							$if job['manager'] != None:
+								<div class="col-sm-6 job-show"><p style="margin-bottom: 0px;">Manager: <span id="job-manager">$job['manager']['name']</span></p></div>
+							$else:
+								<div class="col-sm-6 job-show"><p style="margin-bottom: 0px;">Manager: <span id="job-manager"> </span></p></div>
+							<div class="col-sm-6 job-edit"><p style="margin-bottom: 0px;">Manager: <select id="edit-job-manager"></select></p></div>
+	    				</div>
+						$if user['permissionLevel'].upper() == "ADMIN" or user['permissionLevel'].upper() == "MANAGER":
+							<div class="row">
+								<div class="col-sm-6 job-show"><p style="margin-bottom: 0px;">Budget availiable: <span id="job-budgetAvailable"> </span></p></div>
+								<div class="col-sm-6 job-edit"><p style="margin-bottom: 0px;">Budget availiable: <input id="edit-job-budgetAvailable" type="text" name="budget_available" size="10" /></p></div>
+								<div class="col-sm-6 job-show"><p style="margin-bottom: 0px;">Budget allocated: <span id="job-budgetAllocated"> </span></p></div>
+								<div class="col-sm-6 job-edit"><p style="margin-bottom: 0px;">Budget allocated: <input id="edit-job-budgetAllocated" type="text" name="budget_allocated" size="10" /></p></div>
+							</div>
+							<div class="row">
+								<div class="col-sm-6">
+									<p style="margin-bottom: 0px;">
+										Scope: 
+										$if len(job['scopes']) == 0:
+											<span id="job-scope"></span>
+										$else:
+											<span id="job-scope"><a href="$job['scopes'][-1]['link']" target="blank">Current Scope</a></span>
+										<button id="button-add-scope"><span class="glyphicon glyphicon-plus"></span></button>
+										<span id="input-scope">
+											<input id="scope-file" type="file">
+										</span>
+										<span id="add-scope">
+											<button id="submit-scope"><span class="glyphicon glyphicon-ok"></span></button>
+											<button id="cancel-scope"><span class="glyphicon glyphicon-remove"></span></button>
+										</span>
+									</p>
+								</div>
+								<div class="col-sm-6">
+									<p style="margin-bottom: 0px;">
+										Estimate: 
+										$if len(job['fullEstimates']) == 0:
+											<span id="job-estimate"></span>
+										$else:
+											<span id="job-estimate"><a href="$job['fullEstimates'][-1]['link']" target="blank">Current Estimate</a></span>
+										<button id="button-add-estimate"><span class="glyphicon glyphicon-plus"></span></button>
+										<span id="input-estimate">
+											<input id="estimate-file" type="file">
+										</span>
+										<span id="add-estimate">
+											<button id="submit-estimate"><span class="glyphicon glyphicon-ok"></span></button>
+											<button id="cancel-estimate"><span class="glyphicon glyphicon-remove"></span></button>
+										</span>
+									
+								</div>
+							</div>
+						$else:
+							<div class="row">
+								<div class="col-sm-6">
+									<p style="margin-bottom: 0px;">
+										Scope: 
+										$if len(job['scopes']) == 0:
+											<span id="job-scope"></span>
+										$else:
+											<span id="job-scope"><a href="$job['scopes'][0]['link']">Current Scope</a></span>
+									</p>
+								</div>
+							</div>
+					</div>
+					<div class="card-block job-show" style="background-color: #f5f5f5;">
+						<p style="margin-bottom: 0px;"  id="job-desc">$job['description']</p>
+					</div>
+					<div class="card-block job-edit" style="background-color: #f5f5f5;">
+						<p style="margin-bottom: 0px;"><textarea id="edit-job-desc" name="job_description" style="width: 280px; height: 50px;">$job['description']</textarea></p>
+					</div>
+					<div class="card-footer text-muted small">
+						<div class="container">
+							<div class="col-sm-3 job-show"><p style="margin-bottom: 0px;">Phase: <span id="job-phase">$job['phase']</span></p></div>
+							<div class="col-sm-3 job-edit"><p style="margin-bottom: 0px;">Phase: <select id="edit-job-phase"><option value="Open" selected>Open</option><option value="Billed">Billed</option><option value="Closed">Closed</option></select></p></div>
+							<div class="col-sm-3 job-show"><p style="margin-bottom: 0px;">Opened: $job['date_started']</p></div>
+							$if job['date_closed']:
+								<div class="col-sm-3 job-show"><p style="margin-bottom: 0px;">Closed: $job['date_closed']</p></div>
+							$if job['date_billed']:
+								<div class="col-sm-3 job-show"><p style="margin-bottom: 0px;">Billed: $job['date_billed']</p></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<!-- End Job Information -->
+
+
+<!-- Begin metadata -->
+	<div class="hidden" id="user-name">$user['name']</div>
+	<div class="hidden" id="apiKey">$user['apiKey']</div>
+	<div class="hidden" id="jobId">$job['id']</div>
+	<div class="hidden" id="location-street-address">$job['street_address']</div>
+	<div class="hidden" id="location-city">$job['city']</div>
+	<div class="hidden" id="location-state">$job['state']</div>
+	<div class="hidden" id="location-zip">$job['zip']</div>
+
+
+
+	$if 'isNewJob' in job:
+		<div class="hidden" id="isNewJob">true</div>
+		$return self
+	$else:
+		<div class="hidden" id="isNewJob">false</div>
+<!-- End metadata -->
+
+
+<!-- Begin Photo Stuff -->
+	<hr>
+	<div class="text-center"><h3>Photos <small><button id="hide-photos">[-]</button><button id="show-photos">[+]</button></div></small></h3>
+	<div id="photos-container" class="container">
+	    <div class="addImageAddFolderCenter text-center col-xs-12">
+			<!--<div class="addImageAddFolder">-->
+				<div class="col-sm-3"></div>
+				<div class="col-sm-3" id="add-image-card">
+					<div class="card text-center card-info addImageAddFolder" id="add-a-image-card">
+						<div class="card-header">
+								<h5 class="card-title">Add a Photo</h5>
+						</div>
+						<div class="card-block">
+							<input id="img-file" type="file" accept="image/*">
+						</div>
+						<div id="img-preview-container">
+							<div class="card-block" style="max-height: 200px">
+								<img id="img-preview" style="max-height: 200px; max-width: 100%">
+								<br>
+								<img id="img-loader" src="http://i.imgur.com/Bcv89it.gif">
+							</div>
+							<div class="card-block">
+								<button id="submitImage">Submit</button>
+								<button id="cancelImage">Cancel</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3" id="add-imageFolder-card">
+					<div class="card text-center card-info addImageAddFolder" id="add-a-imageFolder-card">
+						<div class="card-header">
+								<h5 class="card-title">Add a Folder</h5>
+						</div>
+						<div class="card-block">
+							<input id="folder-name" type="text">
+						</div>
+						<div class="card-block">
+							<button id="submitImageFolder">Submit</button>
+							<button id="cancelImageFolder">Cancel</button>
+						</div>
+					</div>
+				</div>
+			<!--</div>-->
+		</div>
+	    <div class="col-sm-9">
+	        <div class="container">
+	            <div class="card-group" id="gallery">    
+	        		$job['photoFolders'].append({'id':-1,'name':'the_root','parent_id':0})
+	        		$for photoFolder in job['photoFolders']:	        			
+	        			<div class="photoFolder" id="photoFolder_$photoFolder['id']">
+							<span class="text-center"><h3>$photoFolder['name']</h3></span>
+							<div class="text-center photoFolderSection card-group" id="folderContents_$photoFolder['id']">
+								$if photoFolder['id'] != -1:
+									<div class="upAFolderIconAndText col-xs-2">
+										<a class="button show-photoFolder$photoFolder['parent_id'] photoFolderButton" id="goToParentFolder_$photoFolder['parent_id']"><span style="font-size:5em;" class="glyphicon glyphicon-circle-arrow-up"></span></a>
+										<h4>Go up a Folder</h4>
+									</div>
+								$for childFolder in [childFolder for childFolder in job['photoFolders'] if childFolder['parent_id'] == photoFolder['id']]:
+									<div class="photoFolderAndFolderName card col-xs-2">
+										<a class="button show-photoFolder$childFolder['id'] photoFolderButton" id="show-photoFolder_$childFolder['id']"><span style="font-size:5em;" class="glyphicon glyphicon-folder-open"></span></a>
+										<h4>$childFolder['name']</h4>
+									</div>
+								$for photo in [photo for photo in job['photos'] if photo['folder_id'] == photoFolder['id']]:
+									<div class="individualPhoto card col-xs-2">
+										<a class="gallery" rel="gallery_$photo['folder_id']" href="$photo['link']"><div style="height: 100px"><img src="$photo['link']" class="card-img-top individualPhotoImg" style="max-height: 100%; max-width: 100%" alt=""/></div></a>
+									</div>
+							</div>
+						</div>
+	    		</div>
+	   		</div>
+		</div>
+	</div>
+
+<!-- End Photo Stuff -->
+
+
+
+$if user['permissionLevel'].upper() == "ADMIN" or user['permissionLevel'].upper() == "MANAGER":
+	<hr>
+	<!-- Begin Budget Stuff -->
+		<div id="apiResponse"></div>
+		<div class="text-center"><h3>Budget <small><button id="hide-budget">[-]</button><button id="show-budget">[+]</button></div></small></h3>
+		<div class="table-responsive" id="budget-table-div">
+		<table id="budget-table" class="table table-striped table-condensed table-bordered text-center">
+  		<thead>
+  			<tr>
+  				<th class="text-center">Name</th>
+  				<th class="text-center">Type</th>
+  				<th class="text-center">Cost</th>
+  				<th>&nbsp;</th>
+  			</tr>
+  		</thead>
+  		<tbody>
+		$if 'budget' in job:
+			$for item in job['budget']:
+				<tr id="item_$item['id']">
+					<td>
+						<div id="name_$item['id']">$item['name']</div>
+    	          		<input type="text" class="edit_row" id="name_edit_$item['id']" name="name" size="10" value="$item['name']"/>
+					</td>
+					<td>
+						<div id="type_$item['id']">$item['type']</div>
+    	          		<select id="type_edit_$item['id']" class="edit_row"><option value="select" selected>Type</option><option value="Labor">Labor</option><option value="Material">Material</option><option value="Misc">Misc</option></select>
+					</td>
+					<td>
+						<div id="cost_$item['id']">$item['cost']</div>
+    	          		<input type="text" id="cost_edit_$item['id']" class="edit_row" name="cost" size="5" value="$item['cost']"/>
+					</td>
+					<td>
+						<div id="buttons_$item['id']"><button class="edit_button" id="edit_$item['id']">Edit</button><button class="delete_button" id="delete_$item['id']">Delete</button></div>
+    	         		<div id="buttons_edit_$item['id']" class="edit_row"><button class="save_button" id="save_$item['id']">Save</button><button class="cancel_button" id="cancel_$item['id']">Cancel</button></div>
+					</td>
+				</tr>
+		$else:
+			<tr>
+				<td colspan="4">No budget items yet...</td>
+			</tr>
+		<tr>
+			
+		</tr>
+		<tr>
+			<td colspan="4" id="showBudgetAdd"><button>Add a budget item</button></td>
+			<td class="addItemForm"><input type="text" id="name" name="name" size="30" placeholder="Name"/></td>
+			<td class="addItemForm"><select  id="type"><option value="select" selected>Type</option><option value="Labor">Labor</option><option value="Material">Material</option><option value="Misc">Misc</option></select></td>
+			<td class="addItemForm"><span class="cost-error" color="red">(Example: 140.30)<br></span><input type="text" id="cost" name="cost" size="30" placeholder="Cost"/></td>
+			<td class="addItemForm"><button  id="budgetAdd">Add</button><button id="cancelBudgetAdd">Cancel</button></td>
+		</tr>
+  		</tbody>
+		</table>
+  		</div>
+  	<!-- End Budget Stuff -->
+
+	
+
+<!-- Begin Note Stuff -->
+	<hr>
+	<div class="text-center"><h3>Notes <small><button id="hide-notes">[-]</button><button id="show-notes">[+]</button></div></small></h3>
+	<div class="container" id="notes-container">
+		<div class="col-sm-4">
+			<div class="card-group">
+				<div class="card add-note-card text-center" id="add-note-card">
+					<div class="card-header">
+						<h5 class="card-title">Add a Note</h5>
+					</div>
+					<div class="card-block">
+						<p>
+							Note Type: <br>
+							<input type="radio" id="note-type-note" name="note-type" value="note" onclick="selectedNote()" checked> Note
+							<input type="radio" id="note-type-dailyReport" name="note-type" onclick="selectedDailyReport()" value="dailyReport"> Daily Report
+							<input type="radio" id="note-type-actionItem" name="note-type" onclick="selectedActionItem()" value="actionItem"> Action Item
+						</p>
+						<p>
+							Message: <br>
+							<textarea id="note-message"></textarea>
+						</p>
+						<p class="daily-report-field">
+							People On Site: <br>
+							<textarea id="note-PeopleOnSite"></textarea>
+						</p>
+						<p class="daily-report-field">
+							Arrival Time:<br><span class="date-time-error">24-hour format:<br>hh:mm<br></span>
+							<input id="note-arrivalTime" type="time" placeholder=" "> <br><br>
+							Departure Time:<br> <span class="date-time-error">24-hour format:<br>hh:mm<br></span>
+							<input id="note-departureTime" type="time">
+						</p>
+						<p class="action-item-field">
+							Assignee: <br>
+							<select id="note-assignee-select"></select>
+						</p>
+					</div>
+					<div class="card-footer">
+						<button id="submitNote" onclick="notesAjax();">Submit</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="container">
+				<div class="card-group note-card-group" id="note-card-group"> 
+					$for note in job['notes']:
+						$if note['tbl'] == 'dailyReports':
+							$ type = "Daily Report"
+							$ cardType = "card-warning"
+						$if note['tbl'] == 'actionItems':
+							$ type = "Action Item"
+							$if note['completion_time']:
+								$ cardType = "card-success"
+							$else:
+								$ cardType = "card-danger"
+						$if note['tbl'] == 'notes':
+							$ type = "Note"
+							$ cardType = "card-info"
+
+						<div class="col-xs-12 col-md-12 a-note-card-group">
+						<div class="card $cardType note-card text-center get-note" id="note-$note['tbl']-$note['id']">
+							<div class="card-header">
+								<h5 class="card-title" >
+									$type
+									$if note['author']['id'] == user['id'] or user['permissionLevel'].upper() == "ADMIN":
+										<button class="note-edit-button note-display note-button" id="note-edit-button-$note['tbl']-$note['id']"><span class="glyphicon glyphicon-edit"></span>
+										</button>
+										<button class="note-delete-button note-display note-button" id="note-delete-button-$note['tbl']-$note['id']"><span class="glyphicon glyphicon-trash"></span>
+										</button>
+										<button class="note-save-button note-edit" id="note-save-button-$note['tbl']-$note['id']"><span class="glyphicon glyphicon-ok"></span></button>
+										<button class="note-cancel-button note-edit" id="note-cancel-button-$note['tbl']-$note['id']"><span class="glyphicon glyphicon-remove"></span></button>
+								</h5>	
+							</div>
+							<div class="card-block">
+								<p style="display:inline;" class="card-text note-display" id="note-contents-$note['tbl']-$note['id']">$note['contents']</p>
+								<textarea class="note-edit" id="note-edit-contents-$note['tbl']-$note['id']">$note['contents']</textarea>
+							</div>
+							$if note['tbl'] == 'dailyReports':
+								<div class="card-block">
+									<hr>
+									<p class="card-text"><b>Arrival Time:</b> <div class="note-display" style="display:inline;" id="note-arrival-$note['tbl']-$note['id']">$note['arrival_time']</div><input class="note-edit" id="note-edit-arrival-$note['tbl']-$note['id']" type="time"></p>
+									<p class="card-text"><b>Departure Time:</b> <div class="note-display" style="display:inline;" id="note-departure-$note['tbl']-$note['id']">$note['departure_time']</div><input class="note-edit" id="note-edit-departure-$note['tbl']-$note['id']" type="time"></p>
+									<hr>
+									<p class="card-text"><b>People on Site:</b></p>
+									<p class="card-text"><div class="note-display" style="display:inline;" id="note-people-$note['tbl']-$note['id']">$note['people_on_site']</div></p>
+									<textarea class="note-edit" id="note-edit-people-$note['tbl']-$note['id']">$note['people_on_site']</textarea>
+								</div>
+							$if note['tbl'] == 'actionItems':
+									$if note['completion_time']:
+										<div class="card-footer text-muted small" id="note-completer-$note['tbl']-$note['id']">
+
+											<p class="card-text">Completed by $note['completion_user']['name'] at $note['completion_time']</p>
+										</div>
+									$else:
+										<div class="card-block" id="note-completer-$note['tbl']-$note['id']">
+											<hr>
+											<p class="card-text" style="margin-bottom:5px;">
+											Assigned User
+											</p>
+											<div style="display:inline;" id="note-assignee-$note['tbl']-$note['id']">
+												<select class="note-edit note-assignee-edit note-select-assignee" style="display:inline;" id="note-select-assignee-$note['tbl']-$note['id']"></select>
+												$if note['assigned_user']:
+													<div class="note-display" style="display:inline;" id="note-assigned-name-$note['tbl']-$note['id']">
+														$note['assigned_user']['name']&nbsp;
+														<a class="button" href="tel:$note['assigned_user']['phone']"><span class="glyphicon glyphicon-earphone"></span></a>&nbsp;
+														<a class="button" href="mailto:$note['assigned_user']['email']"><span class="glyphicon glyphicon-envelope"></span></a>
+													</div>
+												$else:
+													<button class="note-add-assignee note-display" style="display:inline;" id="note-add-assignee-$note['tbl']-$note['id']">Add One</button>
+													<button class="note-assignee-edit note-save-assignee" style="display:inline;" id="note-save-assignee-$note['tbl']-$note['id']"><span class="glyphicon glyphicon-ok"></span></button>
+													<button class="note-assignee-edit note-cancel-assignee" style="display:inline;" id="note-cancel-assignee-$note['tbl']-$note['id']"><span class="glyphicon glyphicon-remove"></span></button>	
+											</div>
+											<hr>
+											<p class="card-text" >
+												<button class="note-complete" id="note-complete-button-$note['tbl']-$note['id']">Complete</button>
+												<p class="note-complete-edit">Are You Sure?</p>
+												<button class="note-complete-edit note-complete-confirm" id="note-complete-confirm-button-$note['tbl']-$note['id']">Yes</button>
+												<button class="note-complete-edit note-complete-cancel" id="note-complete-cancel-button-$note['tbl']-$note['id']">No</button>
+											</p>
+										</div>
+							<div class="card-footer text-muted small" id="card-footer">
+								Created by $note['author']['name'] at <span class="get-note-entry-time" id="note-entry-time-$note['tbl']-$note['id']">$note['entry_time']</span>
+							</div>
+						</div>				
+						</div>
+			</div>
+		</div>
+	</div>
+	</div>
+<!-- End Note Stuff -->
+
+<!-- Begin ajax templates -->
+	
+	<table class="hidden">
+		<tbody id="budgetRowTemplate">
+			<tr>
+				<td>
+					<div id="name_!template!">!name!</div>
+			  		<input type="text" class="edit_row" id="name_edit_!template!" name="name" size="10" value="!name!" />
+				</td>
+				<td>
+					<div id="type_!template!">!type!</div>
+			  		<select id="type_edit_!template!" class="edit_row"><option value="select" selected>Type</option><option value="Labor">Labor</option><option value="Material">Material</option><option value="Misc">Misc</option></select>
+				</td>
+				<td>
+					<div id="cost_!template!">!cost!</div>
+			  		<input type="text" id="cost_edit_!template!" class="edit_row" name="cost" size="5" value="!cost!" />
+				</td>
+				<td>
+					<div id="buttons_!template!"><button class="edit_button" id="edit_!template!">Edit</button><button class="delete_button" id="delete_!template!">Delete</button></div>
+			 		<div id="buttons_edit_!template!" class="edit_row"><button class="save_button" id="save_!template!">Save</button><button class="cancel_button" id="cancel_!template!">Cancel</button></div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div class="hidden" id="completion-user-template">
+		<p class="card-text">
+		Completed by !name! at !time!
+		</p>
+	</div>
+	<div class="hidden" id="assigned-user-template">
+		<select class="note-edit note-assignee-edit note-select-assignee" style="display: none;" id="note-select-assignee-!tbl!-!id!"></select>
+		<div class="note-display" style="display:inline;" id="note-assigned-name-!tbl!-!id!">
+			!name!&nbsp;
+			<a class="button" href="tel:!phone!"><span class="glyphicon glyphicon-earphone"></span></a>&nbsp;
+			<a class="button" href="mailto:!email!"><span class="glyphicon glyphicon-envelope"></span></a>
+		</div>
+	</div>
+	<div class="hidden" id="dailyReports-template">
+		<div class="col-xs-12 col-md-12 a-note-card-group">
+			<div class="card card-warning note-card text-center" id="note-!tbl!-!id!" style="width: 350px;">
+    			<div class="card-header">
+    			    <h5 class="card-title">
+    			        Daily Report
+    			        <button class="note-edit-button note-display" id="note-edit-button-!tbl!-!id!"><span class="glyphicon glyphicon-edit"></span></button>
+    			        <button class="note-delete-button note-display" id="note-delete-button-!tbl!-!id!"><span class="glyphicon glyphicon-trash"></span></button>
+    			        <button class="note-save-button note-edit" id="note-save-button-!tbl!-!id!"><span class="glyphicon glyphicon-ok"></span></button>
+    			        <button class="note-cancel-button note-edit" id="note-cancel-button-!tbl!-!id!"><span class="glyphicon glyphicon-remove"></span></button>
+    			    </h5>
+    			</div>
+    			<div class="card-block">
+    			    <p style="display:inline;" class="card-text note-display" id="note-contents-!tbl!-!id!"></p>
+    			    <textarea class="note-edit" id="note-edit-contents-!tbl!-!id!"></textarea>
+    			</div>
+    			<div class="card-block">
+    			    <hr>
+    			    <p class="card-text"><b>Arrival Time:</b> </p><div class="note-display" style="display:inline;" id="note-arrival-!tbl!-!id!"></div><input class="note-edit" id="note-edit-arrival-!tbl!-!id!" type="time">
+    			    <p class="card-text"><b>Departure Time:</b> </p><div class="note-display" style="display:inline;" id="note-departure-!tbl!-!id!"></div><input class="note-edit" id="note-edit-departure-!tbl!-!id!" type="time">
+    			    <hr>
+    			    <p class="card-text"><b>People on Site:</b></p>
+    			    <p class="card-text"><div class="note-display" style="display:inline;" id="note-people-!tbl!-!id!"></div></p>
+    			    <textarea class="note-edit" id="note-edit-people-!tbl!-!id!"></textarea>
+    			</div>
+    			<div class="card-footer text-muted small">
+    			    Created by <div style="display:inline;" id="note-user-name-!tbl!-!id!"></div> at <div style="display:inline;" id="note-entry-time-!tbl!-!id!"></div>
+    			</div>
+			</div>
+		</div>
+	</div>
+	<div class="hidden" id="actionItems-template">
+		<div class="col-xs-12 col-md-12 a-note-card-group">
+			<div class="card card-danger note-card text-center" id="note-!tbl!-!id!" style="width: 350px;">
+    			<div class="card-header">
+        			<h5 class="card-title">
+        			    Action Item
+        			    <button class="note-edit-button note-display" id="note-edit-button--!tbl!-!id!"><span class="glyphicon glyphicon-edit"></span></button>
+        			    <button class="note-delete-button note-display" id="note-delete-button--!tbl!-!id!"><span class="glyphicon glyphicon-trash"></span></button>
+        			    <button class="note-save-button note-edit" id="note-save-button--!tbl!-!id!"><span class="glyphicon glyphicon-ok"></span></button>
+        			    <button class="note-cancel-button note-edit" id="note-cancel-button--!tbl!-!id!"><span class="glyphicon glyphicon-remove"></span></button>
+        			</h5>
+    			</div>
+    			<div class="card-block">
+        			<p style="display:inline;" class="card-text note-display" id="note-contents-!tbl!-!id!"></p>
+        			<textarea class="note-edit" id="note-edit-contents-!tbl!-!id!"></textarea>
+    			</div>
+   				<div class="card-block" id="note-completer-!tbl!-!id!">
+        			<hr>
+        			<p class="card-text">Assigned User:</p>
+        			<div style="display:inline;" id="note-assignee-!tbl!-!id!">
+        			    <select class="note-edit note-assignee-edit note-select-assignee" id="note-select-assignee-!tbl!-!id!"></select>
+        			    <button class="note-add-assignee note-display" style="display:inline;" id="note-add-assignee-!tbl!-!id!">Add One</button>
+        			    <button class="note-assignee-edit note-save-assignee" id="note-save-assignee-!tbl!-!id!"><span class="glyphicon glyphicon-ok"></span></button>
+        			    <button class="note-assignee-edit note-cancel-assignee" id="note-cancel-assignee-!tbl!-!id!"><span class="glyphicon glyphicon-remove"></span></button>    
+        			</div>
+        			<hr>
+        			<div class="card-text">
+        			    <button class="note-complete" id="note-complete-button-!tbl!-!id!">Complete</button>
+        			    <p class="note-complete-edit">Are You Sure?</p>
+        			    <button class="note-complete-edit note-complete-confirm" id="note-complete-confirm-button-!tbl!-!id!">Yes</button>
+        			    <button class="note-complete-edit note-complete-cancel" id="note-complete-cancel-button-!tbl!-!id!">No</button>
+        			</div>
+    			</div>
+    			<div class="card-footer text-muted small">
+        			Created by <div style="display:inline;" id="note-user-name-!tbl!-!id!"></div> at <div style="display:inline;" id="note-entry-time-!tbl!-!id!"></div>
+    			</div>
+			</div>
+		</div>
+	</div>
+	<div class="hidden" id="notes-template">
+		<div class="col-xs-12 col-md-12 a-note-card-group">
+    		<div class="card card-info note-card text-center" id="note-!tbl!-!id!" style="width: 350px;">
+        		<div class="card-header">
+            		<h5 class="card-title">
+                		Note
+                		<button class="note-edit-button note-display" id="note-edit-button-!tbl!-!id!"><span class="glyphicon glyphicon-edit"></span></button>
+                		<button class="note-delete-button note-display" id="note-delete-button-!tbl!-!id!"><span class="glyphicon glyphicon-trash"></span></button>
+                		<button class="note-save-button note-edit" id="note-save-button-!tbl!-!id!"><span class="glyphicon glyphicon-ok"></span></button>
+                		<button class="note-cancel-button note-edit" id="note-cancel-button-!tbl!-!id!"><span class="glyphicon glyphicon-remove"></span></button>
+            		</h5>
+        		</div>
+        		<div class="card-block">
+            		<p style="display:inline;" class="card-text note-display" id="note-contents-!tbl!-!id!"></p>
+            		<textarea class="note-edit" id="note-edit-contents-!tbl!-!id!"></textarea>
+        		</div>
+        		<div class="card-footer text-muted small">
+            		Created by <div style="display:inline;" id="note-user-name-!tbl!-!id!"></div> at <div style="display:inline;" id="note-entry-time-!tbl!-!id!"></div>
+        		</div>
+   			</div>
+		</div>
+	</div>
+	<div class="hidden" id="image-template" style="display:none;">
+    	<div class="individualPhoto col-xs-2">
+			<a class="gallery" rel="!gallery!" href="!url!"><div style="height: 100px"><img src="!url!" class="card-img-top" style="max-height: 100%; max-width: 100%" alt=""></div></a>
+    	</div>
+	</div>
+	<!--Brianna the below div needs to match the folder div up there -->
+	<div class="hidden" id="imageFolder-template" style="display:none;">
+		<div class="photoFolderAndFolderName col-xs-2">
+    		<a class="button show-photoFolder!id! photoFolderButton" id="show-photoFolder_!id!"><span style="font-size:5em;" class="glyphicon glyphicon-folder-open"></span></a>
+        	<h4>!name!</h4>
+    	</div>
+	</div>
+	<div class="hidden" id="renderedPhotoFolderTemplate">
+		<div class="photoFolder" id="photoFolder_!id!" style="display: block;">
+            <span class="text-center"><h3>!name!</h3></span>
+            <div class="text-center photoFolderSection card-group" id="folderContents_!id!">
+            	<div class="upAFolderIconAndText col-xs-2">
+                	<a class="button show-photoFolder!parent_id! photoFolderButton" id="goToParentFolder_!parent_id!"><span style="font-size:5em;" class="glyphicon glyphicon-circle-arrow-up"></span></a>
+                    <h4>Go up a Folder</h4>
+                </div>
+            </div>
+    	</div>
+    </div>
+	<div class="hidden" id="assigned-user-template" style="display:none;">
+		<div style="display:inline;" id="note-assigned-name-actionItems-!id!">
+			!name! (
+			<a href="tel:!phone!"><span class="glyphicon glyphicon-earphone"></span></a>|
+			<a href="mailto:!email!"><span class="glyphicon glyphicon-envelope"></span></a>)
+		</div>
+	    <button class="note-add-assignee" style="display:inline;" id="note-add-assignee-actionItems-!id!">Edit</button>
+		<select class="note-edit note-select-assignee" id="note-select-assignee-actionItems-!id!"></select>
+		<button class="note-edit note-save-assignee" id="note-save-assignee-actionItems-!id!">Save</button>
+		<button class="note-edit note-cancel-assignee" id="note-cancel-assignee-actionItems-!id!">Cancel</button>
+    </div>
+<!-- End ajax templates -->
+
+</body>
+</html>

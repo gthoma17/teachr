@@ -1,0 +1,670 @@
+/*very small mobile screen size like for iPhone 4*/
+@media (max-width: 600px) {
+	.gitkit-button {
+		font-size:0.7em;
+	    height: 25px;
+		line-height: 25px;
+	}
+}
+
+/*mobile screen size*/
+@media (max-width: 800px) {
+	.navbar-brand {
+		position:absolute;
+		width:100%;
+		top:0;
+		left:0;
+	}
+	
+	.navbar-nav {
+		background-color:white;
+		margin:0;
+		padding:0;
+		width:100%;
+		height:100%;
+	}
+	
+	.a-note-card-group {
+		width:122%;
+		position:relative;
+		left:-11%;
+	}
+	
+	#note-card-group {
+		margin-top: 30px;
+	}
+
+	#welcome_msg {
+		top:15%;
+	}
+	
+	#sign_in {
+		left:9%;
+		top:50%;
+		width:32%;
+	}
+	
+	#sign_in_logo {
+		width:300%;
+		top:40%;
+		left:8%;
+		margin-bottom:2%;
+	}
+	
+	img.centerLogo {
+		margin-top: 15%;
+		margin-left:5%;
+	}
+	
+}
+
+/*bigger screens*/
+@media (min-width: 800px) {
+	.logo {
+		margin-right:20px;
+	}
+	
+	img.centerLogo {
+		margin: 0 auto;
+	}
+}
+
+/*navigation bar*/
+.logo {
+	position:relative;
+	float:left;
+	height:45px;	
+	top:5.5px;
+	bottom:0px;
+}
+
+
+
+.logo_jobs {
+	position:relative;
+	float:left;
+	height:45px;	
+	top:-1px;
+	bottom:7px;
+}
+
+.navbar-brand {
+    text-align: center;
+	font-size:2em;
+	margin-top:10px;
+	font-weight:bold;
+}
+
+.job-name { 
+    font-size:2em;
+    font-weight:bold;
+    color:#7F7F7F;
+}
+
+.jobs{
+	position:relative;	
+	font-size:2em;
+	padding-top:15px;
+	left:60px;
+	font-weight:bold;
+	color:#7F7F7F;
+}
+
+.navbar-collapse {
+	position:relative;
+	float:right;
+}
+
+#tiles {
+	margin-top:10px;
+}
+/*.navbar-nav {
+	background-color:white;
+}*/
+
+.pages {
+	padding-top:3px;
+}
+
+.navbar {
+	height:60.7px !important;
+}
+
+#accountSwitcher {
+    z-index:255;
+    height:65px;
+    display:inline-block;
+    /*margin-left: auto;
+    margin-right: auto;*/
+    text-align: center;
+    vertical-align:middle;
+	position:relative;
+	top:0px;
+}
+
+#accountSwitcherjobs {
+    z-index:255;
+    height:65px;
+    display:inline-block;
+    /*margin-left: auto;
+    margin-right: auto;*/
+    text-align: center;
+    vertical-align:middle;
+	position:relative;
+	top:0px;
+}
+#accountSwitcherLI {
+    padding-top:0px;
+    margin-top:-1px;
+    margin-right: -15px;
+}
+@media (max-width: 800px) {
+    #accountSwitcherLI {
+      margin-right: 0px;
+    }
+}
+
+/*end of navigation bar*/	
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    text-decoration: none;
+    color: initial;
+    vertical-align:middle;
+    padding: 5px;
+}
+a.adminButton {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    text-decoration: none;
+    color: initial;
+    vertical-align:middle;
+    padding: 5px;
+}
+
+
+
+.hidden {
+    display: hidden;
+}
+th{
+  text-align: right;
+}
+tr{
+  padding: 10px;
+}
+
+body {
+    background-color: lavender;
+	padding-top:70px;
+}
+
+/*notes*/
+#notes_container{
+    width: 34%;
+    height: 350px;
+    padding: 10px;
+    margin: auto;
+    text-align: center;
+    font-family: "Lucida Console", Monaco, monospace;
+    border-radius: 25px;
+}
+
+#note{
+    background-color: #ff6633;
+    border: 2px #ff6633 solid;
+    height: 500px;
+}
+
+/*Invalid input dailyReports error message*/
+.date-time-error{
+    color: red;
+    font-style: italic;
+}
+
+.note-card {
+    background-color: aliceblue;
+    border-width: .15rem;
+}
+.note-card > .card-header  {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}
+.note-card > .card-header > .card-title {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}
+.note-card > .card-block {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}.note-card > .card-block > p {
+    padding: .0125rem;
+    margin-left: .1rem;
+    margin-bottom: 0rem;
+}
+.note-card > .card-block > hr {
+    margin-top: .1rem;
+    margin-bottom: .1rem;
+}
+.note-card > .card-footer {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}
+
+.card {
+  position: relative;
+  margin-bottom: .75rem;
+  border: .0625rem solid #e5e5e5;
+  border-radius: .25rem;
+}
+
+.card-block {
+  padding: 1.25rem;
+  
+}
+
+.card-title {
+  margin-top: 0;
+  margin-bottom: .75rem;
+}
+
+.card-subtitle {
+  margin-top: -.375rem;
+  margin-bottom: 0;
+}
+
+.card-text:last-child {
+  margin-bottom: 0;
+}
+
+.card-link:hover {
+  text-decoration: none;
+}
+
+.card-link + .card-link {
+  margin-left: 1.25rem;
+}
+
+.card > .list-group:first-child .list-group-item:first-child {
+  border-radius: .25rem .25rem 0 0;
+}
+
+.card > .list-group:last-child .list-group-item:last-child {
+  border-radius: 0 0 .25rem .25rem;
+}
+
+.card-header {
+  padding: .75rem 1.25rem;
+  background-color: #f5f5f5;
+  border-bottom: .0625rem solid #e5e5e5;
+}
+
+.card-header:first-child {
+  border-radius: .1875rem .1875rem 0 0;
+}
+
+.card-footer {
+  padding: .75rem 1.25rem;
+  background-color: #f5f5f5;
+  border-top: .0625rem solid #e5e5e5;
+}
+
+.card-footer:last-child {
+  border-radius: 0 0 .1875rem .1875rem;
+}
+
+.card-primary {
+  background-color: #0275d8;
+  border-color: #0275d8;
+}
+
+.card-success {
+  background-color: #F2592A;
+  border-color: #F2592A;
+}
+/*#5cb85c;*/
+
+.jobs-card {
+  background-color: #F2592A;
+  border-color: #F2592A;
+  border-radius:5%;
+}
+
+.jobs-card:hover {
+	box-shadow: 5px 5px LightGray;
+  	border-style: solid;
+  	border-width: 2px;
+  	border-color: white;
+  	cursor:pointer;
+}
+
+.street-address {
+	font-weight: bold;
+	float: left;
+	margin-top: 5px;
+	margin-right: 5px;
+}
+
+.jobs-map-glyphicon {
+	float: right;
+}
+
+.address-and-map {
+	margin-top: 15px;
+	margin-bottom: 50px;
+}
+
+.card-info {
+  background-color: #5bc0de;
+  border-color: #5bc0de;
+  border-top: 1px solid #5bc0de;
+  border-left: 1px solid #5bc0de;
+  border-right: 1px solid #5bc0de;
+}
+
+.card-warning {
+  background-color: #f0ad4e;
+  border-color: #f0ad4e;
+  border-top: 1px solid #f0ad4e;
+  border-left: 1px solid #f0ad4e;
+  border-right: 1px solid #f0ad4e;
+  
+}
+
+.card-danger {
+  background-color: grey;
+  border-color: grey;
+  border-top: 1px solid grey;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+}
+/*#d9534f*/
+
+.card-inverse .card-header,
+.card-inverse .card-footer {
+  border-bottom: .075rem solid rgba(255, 255, 255, .2);
+}
+
+.card-inverse .card-header,
+.card-inverse .card-footer,
+.card-inverse .card-title,
+.card-inverse .card-blockquote {
+  color: #fff;
+}
+
+.card-inverse .card-link,
+.card-inverse .card-text,
+.card-inverse .card-blockquote > footer {
+  color: rgba(255, 255, 255, .65);
+}
+
+.card-inverse .card-link:focus,
+.card-inverse .card-link:hover {
+  color: #fff;
+}
+
+.card-blockquote {
+  padding: 0;
+  margin-bottom: 0;
+  border-left: 0;
+}
+
+.card-img {
+  border-radius: .25rem;
+}
+
+.card-img-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1.25rem;
+}
+
+.card-img-top {
+  border-radius: .25rem .25rem 0 0;
+}
+
+.card-img-bottom {
+  border-radius: 0 0 .25rem .25rem;
+}
+
+.card-deck {
+  display: table;
+  table-layout: fixed;
+  border-spacing: 1.25rem 0;
+}
+
+.card-deck .card {
+  display: table-cell;
+  width: 1%;
+  vertical-align: top;
+}
+
+.card-deck-wrapper {
+  margin-right: -1.25rem;
+  margin-left: -1.25rem;
+}
+
+.card-group {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.card-group .card {
+  display: table-cell;
+  vertical-align: top;
+}
+
+.card-group .card + .card {
+  margin-left: 0;
+  border-left: 0;
+}
+
+.card-group .card:first-child .card-img-top {
+  border-top-right-radius: 0;
+}
+
+.card-group .card:first-child .card-img-bottom {
+  border-bottom-right-radius: 0;
+}
+
+.card-group .card:last-child .card-img-top {
+  border-top-left-radius: 0;
+}
+
+.card-group .card:last-child .card-img-bottom {
+  border-bottom-left-radius: 0;
+}
+
+.card-group .card:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.card-group .card:not(:first-child):not(:last-child) .card-img-top,
+.card-group .card:not(:first-child):not(:last-child) .card-img-bottom {
+  border-radius: 0;
+}
+.card-group > div {
+	margin-bottom: 10px;
+}
+
+.card-columns {
+  -webkit-column-count: 3;
+     -moz-column-count: 3;
+          column-count: 3;
+  -webkit-column-gap: 1.25rem;
+     -moz-column-gap: 1.25rem;
+          column-gap: 1.25rem;
+}
+
+.card-columns .card {
+  display: inline-block;
+  width: 100%;
+}
+.note-card {
+    background-color: aliceblue;
+    border-width: .15rem;
+}
+.note-card > .card-header  {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}
+.note-card > .card-header > .card-title {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}
+.note-card > .card-block {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}.note-card > .card-block > p {
+    padding: .0125rem;
+    margin-left: .1rem;
+    margin-bottom: 0rem;
+}
+.note-card > .card-block > hr {
+    margin-top: .1rem;
+    margin-bottom: .1rem;
+}
+.note-card > .card-footer {
+    padding: .0125rem;
+    margin-bottom: 0rem;
+}
+#img-loader{
+    height: 22px;
+    position: relative;
+    top: -22px;
+}
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+    height: 100%;
+}
+
+/*job edit*/
+#edit-job-desc {
+    width: 280px;
+    height: 50px;
+}
+
+#edit-job {
+	font-size:1.7em;
+	clear:both;
+	display:inline;
+	float:right;
+}
+
+#edit-job:hover, #edit-job-save:hover, #edit-job-cancel:hover {
+	text-decoration:none;
+}
+
+#edit-job-save:active, #edit-job-cancel:active {
+	text-decoration:none;
+}
+
+#job-name {
+	display:inline;
+}
+
+#edit-job-save, #edit-job-cancel {
+	font-size:0.7em;
+}
+
+
+/*Add a Photo border fix*/
+#add-a-image-card {
+	border: 1px solid #5bc0de;
+}
+
+.addImageAddFolder {
+	/*text-align: center;*/
+	display: inline-block;
+	margin: 2px;
+}
+
+.addImageAddFolderCenter {
+	text-align: center;
+	width: 100%;
+}
+
+.photoFolderButton {
+	margin: .25em;
+}
+
+.upAFolderIconAndText {
+	display: inline-block;
+	height: 10em;
+}
+
+.photoFolderAndFolderName {
+	display: inline-block;
+	height: 10em;
+
+}
+
+.individualPhoto {
+	display: inline-block;
+	vertical-align: top;
+	height: 10em;
+
+}
+
+.individualPhotoImg {
+	height: 5em;
+	margin: .25em;
+}
+
+.photoFolderSection {
+	text-align: center;
+}
+
+/*sign in page*/
+#welcome_msg {
+	position: absolute;
+	top:2%;
+	left:3%;
+}
+
+#sign_in {
+	position: absolute;
+	left:8%;
+	top:20%;
+	width:30%;
+}
+#sign_in_button div{
+	position: relative;
+	left:20%;
+}
+
+#sign_in_logo {
+	position:relative;
+	width:280%;
+	
+}
+
+<<<<<<< HEAD
+/*Glyph Icons*/
+/*.span.glyphicon.glyphicon-folder-open {
+	font-size: 5em;
+}*/
+
+=======
+
+.actionItemCards {
+	background-color:#F2592A;
+}
+
+.glyphicon-sort:hover {
+	color: grey;
+}
+
+#allDashContainer {
+	margin-bottom: 5%;
+}
+>>>>>>> master
